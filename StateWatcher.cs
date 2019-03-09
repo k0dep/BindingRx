@@ -17,7 +17,7 @@ namespace BindingRx
         /// <param name="stateAccessor"> delegate for access to target property of object </param>
         public StateWatcher(T source, Func<T, object> stateAccessor)
         {
-            lastState = stateAccessor(source);
+            lastState = null;
             this.source = source;
             this.stateAccessor = stateAccessor;
         }
@@ -26,7 +26,7 @@ namespace BindingRx
         {
             return Observable.EveryUpdate()
                 .Select(_ => stateAccessor(source))
-                .Where(cState => !cState.Equals(lastState))
+                .Where(cState => (cState == null && cState != lastState) || (cState != null && !cState.Equals(lastState)))
                 .Select(cState => lastState = cState);
         }
 

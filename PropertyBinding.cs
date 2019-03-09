@@ -103,16 +103,8 @@ namespace BindingRx
                 Debug.LogError("Data instance is null!");
                 return null;
             }
-
-            var rxLeft = _source.Get(DataInstance);
-
-            if (rxLeft != null)
-            {
-                return rxLeft;
-            }
             
-            Debug.LogError("Property at left side is null! Check data instance initialization.");
-            return null;
+            return _source.Get(DataInstance);;
         }
 
         private void DstStateChanged(object value)
