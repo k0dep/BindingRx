@@ -104,7 +104,7 @@ namespace BindingRx
                 return null;
             }
             
-            return _source.Get(DataInstance);;
+            return _source.Get(DataInstance);
         }
 
         private void DstStateChanged(object value)
