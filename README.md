@@ -1,4 +1,4 @@
-# BindingRx
+# BindingRx 🔗
 Package for unity3d which allow make binding linke in MVVM pattern.  
 
 ## Features
