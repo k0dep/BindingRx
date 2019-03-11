@@ -37,7 +37,7 @@ namespace BindingRx
             _srcSequenceWatcher = new StateWatcher<IEnumerable>(_dataInstance,
                 data => data.OfType<object>()
                     .Select(item => item.GetHashCode())
-                    .Aggregate((int acc, int item) => unchecked(acc += acc * 314159 + item)));
+                    .Aggregate(0, (int acc, int item) => unchecked(acc += acc * 314159 + item)));
             _srcSequenceWatcher.Watch().Subscribe(OnSequenceChange);
         }
 

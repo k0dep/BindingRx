@@ -20,5 +20,10 @@ namespace BindingRx.Example
         {
             instance.Nested[1].Data = "test change";
         }
+
+        public void Delete(NestedSliderExample item)
+        {
+            instance.Nested.Remove(item);
+        }
     }
 }
