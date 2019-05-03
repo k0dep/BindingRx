@@ -1,12 +1,12 @@
 {
   "name": "bindingrx",
   "displayName": "BindingRx",
-  "version": "2.1.0",
+  "version": "2.1.1",
   "unity": "2018.3",
   "description": "Data binding package for unity3d",
   "dependencies": {
-    "type-inspector": "https://github.com/k0dep/type-inspector.git#1.1.0",
-    "unirx": "https://github.com/k0dep/UniRx.git#6.2.2"
+    "type-inspector": "1.1.0",
+    "unirx": "6.2.2"
   },
   "keywords": [
     "reflection",
