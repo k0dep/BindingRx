@@ -1,15 +1,15 @@
 {
     "name": "BindingRx",
     "references": [
-        "TypeInspector",
-        "UniRx"
+        "GUID:3d0c0d2a7f97119408d49fd37a6d3d4f",
+        "GUID:560b04d1a97f54a4e82edc0cbbb69285"
     ],
-    "optionalUnityReferences": [],
     "includePlatforms": [],
     "excludePlatforms": [],
     "allowUnsafeCode": false,
     "overrideReferences": false,
     "precompiledReferences": [],
     "autoReferenced": true,
-    "defineConstraints": []
+    "defineConstraints": [],
+    "versionDefines": []
 }
