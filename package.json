@@ -5,7 +5,7 @@
   "unity": "2018.3",
   "description": "Data binding package for unity3d",
   "dependencies": {
-    "type-inspector": "1.1.0",
+    "type-inspector": "1.2.0",
     "unirx": "6.2.2"
   },
   "keywords": [
