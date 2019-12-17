@@ -22,6 +22,10 @@ namespace BindingRx
         private IWatcher _dstWatcher;
         private IWatcher _srcWatcher;
 
+        private IDisposable _srcSubscription;
+        private IDisposable _dstSubscription;
+
+
         private object _dataInstance;
         public object DataInstance
         {
@@ -32,6 +36,13 @@ namespace BindingRx
                 Initialize();
             }
         }
+
+        public void OnDisable()
+        {
+            _srcSubscription?.Dispose();
+            _dstSubscription?.Dispose();
+        }
+
         
         public bool IsValid()
         {
@@ -46,6 +57,8 @@ namespace BindingRx
                 Debug.LogError("State is not valid!", this);
                 return;
             }
+
+            OnDisable();
             
             var rxLeft = GetAndValidateLeft();
 
@@ -71,7 +84,7 @@ namespace BindingRx
             }
             
             _srcWatcher = new StateWatcher<PropertyReference>(_source, o => o.Get(DataInstance));
-            _srcWatcher.Watch().Subscribe(SrcStateChanged);
+            _srcSubscription = _srcWatcher.Watch().Subscribe(SrcStateChanged);
         }
 
         private void CreateDstStateWatcher()
@@ -82,7 +95,7 @@ namespace BindingRx
             }
 
             _dstWatcher = new StateWatcher<MonoPropertyReference>(_destination, o => o.Get());
-            _dstWatcher.Watch().Subscribe(DstStateChanged);
+            _dstSubscription = _dstWatcher.Watch().Subscribe(DstStateChanged);
         }
 
         private void SubscribeToLeft(object rxLeft)
@@ -93,7 +106,7 @@ namespace BindingRx
             }
             
             var methodInfo = rxLeft.GetType().GetMethod("Subscribe");
-            methodInfo.Invoke(rxLeft, new[] { Observer.Create<object>(SrcStateChanged) });
+            _srcSubscription = (IDisposable)methodInfo.Invoke(rxLeft, new[] { Observer.Create<object>(SrcStateChanged) });
         }
 
         private object GetAndValidateLeft()

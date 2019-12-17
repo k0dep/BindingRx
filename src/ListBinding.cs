@@ -32,13 +32,30 @@ namespace BindingRx
 
         private List<GameObject> _cache = new List<GameObject>();
 
+        private IDisposable _subscription;
+
         private void Init()
         {
+            _subscription?.Dispose();
+
             _srcSequenceWatcher = new StateWatcher<IEnumerable>(_dataInstance,
                 data => data.OfType<object>()
                     .Select(item => item.GetHashCode())
                     .Aggregate(0, (int acc, int item) => unchecked(acc += acc * 314159 + item)));
-            _srcSequenceWatcher.Watch().Subscribe(OnSequenceChange);
+            _subscription = _srcSequenceWatcher.Watch().Subscribe(OnSequenceChange);
+        }
+
+        public void OnEnable()
+        {
+            if(DataInstance != null)
+            {
+                Init();
+            }
+        }
+
+        public void OnDisable()
+        {
+            _subscription?.Dispose();
         }
 
         private void Awake()

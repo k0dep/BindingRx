@@ -14,9 +14,14 @@ namespace BindingRx
         [MethodsFilter(nameof(FilterMethods))]
         public MonoMethodReference OnClickMethod;
 
-        private void Awake()
+        private void OnEnable()
         {
             SourceButton?.onClick.AddListener(OnClick);
+        }
+
+        private void OnDisable()
+        {
+            SourceButton?.onClick.RemoveListener(OnClick);
         }
 
         private void OnClick()

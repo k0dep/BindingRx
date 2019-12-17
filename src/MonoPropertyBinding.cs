@@ -1,4 +1,5 @@
-﻿using TypeInspector;
+﻿using System;
+using TypeInspector;
 using UniRx;
 using UnityEngine;
 
@@ -21,9 +22,18 @@ namespace BindingRx
         private IWatcher _dstWatcher;
         private IWatcher _srcWatcher;
 
-        public void Start()
+        private IDisposable _srcSubscription;
+        private IDisposable _dstSubscription;
+
+        public void OnEnable()
         {
             Initialize();
+        }
+
+        public void OnDisable()
+        {
+            _srcSubscription?.Dispose();
+            _dstSubscription?.Dispose();
         }
 
         public bool IsValid()
@@ -52,7 +62,7 @@ namespace BindingRx
             }
             
             _srcWatcher = new StateWatcher<MonoPropertyReference>(_source, o => o.Get());
-            _srcWatcher.Watch().Subscribe(SrcStateChanged);
+            _srcSubscription = _srcWatcher.Watch().Subscribe(SrcStateChanged);
         }
 
         private void CreateDstStateWatcher()
@@ -63,7 +73,7 @@ namespace BindingRx
             }
 
             _dstWatcher = new StateWatcher<MonoPropertyReference>(_destination, o => o.Get());
-            _dstWatcher.Watch().Subscribe(DstStateChanged);
+            _dstSubscription = _dstWatcher.Watch().Subscribe(DstStateChanged);
         }
 
         private void DstStateChanged(object value)
